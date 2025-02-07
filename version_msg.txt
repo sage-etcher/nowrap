@@ -1,0 +1,3 @@
+nowrap v0.1-beta
+License: The MIT License
+Copyright (c) 2025 Sage I. Hendricks

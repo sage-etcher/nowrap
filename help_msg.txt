@@ -1,0 +1,13 @@
+Usage: ... | nowrap
+       nowrap --help
+       nowrap --version
+
+Flags:
+  -h, --help     show this message.
+  -V, --version  show the program version and copyright.
+
+Error:
+  0  success,
+  1  error
+
+Log issues at: https://github.com/sage-etcher/nowrap.git

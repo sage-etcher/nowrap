@@ -1,6 +1,8 @@
 
 nowrap
 nowrap.o
+help.h
+version.h
 .cache/
 *.swp
 *.bak
