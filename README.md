@@ -1,7 +1,7 @@
 # Nowrap
 
 Disables line wrapping in VT compatible terminals. It has no settings, it
-does one thing and that is it.
+does one thing and that is it. Works with coloured text too!
 
 nowrap is used as follows
 ```
