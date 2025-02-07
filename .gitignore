@@ -6,3 +6,4 @@ version.h
 .cache/
 *.swp
 *.bak
+release/

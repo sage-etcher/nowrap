@@ -1,0 +1,29 @@
+
+DESTDIR =
+PREFIX  = /usr/local
+
+CFLAGS = -O3 -march=native -Wall -Wextra -Wpedantic -pedantic-errors
+LFLAGS = -s
+
+all: build
+
+build: nowrap
+
+install:
+	install -m 0755 ./nowrap $(DESTDIR)/$(PREFIX)/bin/nowrap
+
+uninstall:
+	rm -f $(DESTDIR)/$(PREFIX)/bin/nowrap
+
+clean:
+	rm -f nowrap.o
+	rm -f nowrap
+
+nowrap.o: nowrap.c help.h version.h
+	cc -c -o nowrap.o nowrap.c $(CFLAGS)
+
+nowrap: nowrap.o
+	cc -o nowrap nowrap.o $(LFLAGS)
+
+# vim: noet
+# end of file
