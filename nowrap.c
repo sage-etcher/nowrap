@@ -118,6 +118,4 @@ main (int argc, char **argv)
 }
 
 
-/* vim: makeprg=make
- */
 /* end of file */
