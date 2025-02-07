@@ -17,14 +17,11 @@ abcdefghijklmnopqrstuvwxyzabcdefghijklz
 note: currently the last character (far right) does not show accurately,
 see issue #1 for more details.
 
-## Compiling
+## Building
 
-Requires xxd for embedding help and version messages.  
-Requires make and a C89 compatible compiler
-
+Requires make and a c89 compiler
 
 ```
-$ cd nowrap
 $ make
 # make install
 ```

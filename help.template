@@ -1,6 +1,6 @@
-Usage: ... | nowrap
-       nowrap --help
-       nowrap --version
+Usage: ... | @@NAME@@
+       @@NAME@@ --help
+       @@NAME@@ --version
 
 Flags:
   -h, --help     show this message.

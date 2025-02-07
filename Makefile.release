@@ -2,7 +2,8 @@
 DESTDIR =
 PREFIX  = /usr/local
 
-CFLAGS = -O3 -march=native -Wall -Wextra -Wpedantic -pedantic-errors
+CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -pedantic-errors \
+         -O3 -march=native
 LFLAGS = -s
 
 all: build

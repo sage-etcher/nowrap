@@ -1,32 +1,41 @@
 
+
+# install flags
 DESTDIR =
 PREFIX  = /usr/local
 
-CFLAGS = -O0 -g -DDEBUG -Wall -Wextra -Wpedantic -pedantic-errors
+CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -pedantic-errors \
+         -O0 -g -DDEBUG
 LFLAGS = -g
 
+# release flags
+YEAR    = 2025
 NAME    = nowrap
 VERSION = 0.2-beta
+RELEASE = $(NAME)-$(VERSION)
 
-RELEASE_DATA     = release/data
-RELEASE_ARCHIVES = release/archives
-RELEASE_TAR = $(RELEASE_ARCHIVES)/$(NAME)-$(VERSION).tar
+RELEASE_DIR      = release
+RELEASE_DATA     = $(RELEASE_DIR)/$(RELEASE)
+RELEASE_ARCHIVES = $(RELEASE_DIR)/distributables
+RELEASE_TAR      = $(RELEASE_ARCHIVES)/$(RELEASE).tar
 
 all: build
 
 build: nowrap
 
 install:
-	install -m 0755 nowrap $(DESTDIR)/$(PREFIX)/bin/
+	install -m 0755 nowrap $(DESTDIR)$(PREFIX)/bin/
 
 uninstall:
-	rm -f $(DESTDIR)/$(PREFIX)/bin/nowrap
+	rm -f $(DESTDIR)$(PREFIX)/bin/nowrap
 
 clean:
 	rm -f help.h
 	rm -f version.h
 	rm -f nowrap.o
 	rm -f nowrap
+	rm -rf $(RELEASE_DIR)
+
 genrelease: help.h version.h
 	mkdir -p $(RELEASE_DATA)
 	install -m 644 LICENSE           $(RELEASE_DATA)/
@@ -34,7 +43,7 @@ genrelease: help.h version.h
 	install -m 644 help.h            $(RELEASE_DATA)/
 	install -m 644 version.h         $(RELEASE_DATA)/
 	install -m 644 nowrap.c          $(RELEASE_DATA)/
-	install -m 644 Makefile.release  $(RELEASE_DATA)/
+	install -m 644 Makefile.release  $(RELEASE_DATA)/Makefile
 
 	mkdir -p $(RELEASE_ARCHIVES)
 	tar -cf $(RELEASE_TAR) $(RELEASE_DATA)/
@@ -42,17 +51,24 @@ genrelease: help.h version.h
 	-gzip  -k9 $(RELEASE_TAR)
 	-bzip2 -k9 $(RELEASE_TAR)
 
-help.h: help_msg.txt
-	xxd -i -n HELP_MSG help_msg.txt help.h
-
-version.h: version_msg.txt
-	xxd -i -n VERSION_MSG version_msg.txt version.h
+nowrap: nowrap.o
+	cc -o nowrap nowrap.o $(LFLAGS)
 
 nowrap.o: nowrap.c help.h version.h
 	cc -c -o nowrap.o nowrap.c $(CFLAGS)
 
-nowrap: nowrap.o
-	cc -o nowrap nowrap.o $(LFLAGS)
+# find and replace variables in template, then
+# use xxd to embed it into a C header
+%.h: %.template
+	cat $*.template | \
+		sed -e 's,@@NAME@@,$(NAME),g' | \
+		sed -e 's,@@VERSION@@,$(VERSION),g' | \
+		sed -e 's,@@YEAR@@,$(YEAR),g' \
+		> $*.template.$$ 
+	xxd -i -n embeded_$*_msg $*.template.$$  $*.h
+	rm -f $*.template.$$ 
+
+
 
 # vim: noet
 # end of file

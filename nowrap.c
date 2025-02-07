@@ -5,6 +5,9 @@
 #include "help.h"
 #include "version.h"
 
+#define HELP_MSG    embeded_help_msg
+#define VERSION_MSG embeded_version_msg
+
 
 static void 
 wrapping_disable (void)
